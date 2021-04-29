@@ -16,9 +16,4 @@
   -->
 
 <resources>
-    <array name="preloaded_fonts" translatable="false">
-        <item>@font/inter_300</item>
-        <item>@font/inter_400</item>
-        <item>@font/inter_500</item>
-    </array>
 </resources>
