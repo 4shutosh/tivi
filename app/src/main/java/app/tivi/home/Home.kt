@@ -21,7 +21,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -37,7 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.tivi.R
 import app.tivi.common.compose.IconResource
-import dev.chrisbanes.accompanist.insets.navigationBarsHeight
+import com.google.accompanist.insets.navigationBarsHeight
 
 internal enum class HomeNavigation {
     Discover,
@@ -60,7 +60,7 @@ internal fun HomeBottomNavigation(
     ) {
         Column {
             Row(
-                Modifier.fillMaxWidth().preferredHeight(56.dp),
+                Modifier.fillMaxWidth().height(56.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 BottomNavigationItem(
@@ -71,7 +71,7 @@ internal fun HomeBottomNavigation(
                 )
 
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.FavoriteBorder) },
+                    icon = { Icon(Icons.Default.FavoriteBorder, contentDescription = null) },
                     label = { Text(stringResource(R.string.following_shows_title)) },
                     selected = selectedNavigation == HomeNavigation.Following,
                     onClick = { onNavigationSelected(HomeNavigation.Following) },
@@ -85,7 +85,7 @@ internal fun HomeBottomNavigation(
                 )
 
                 BottomNavigationItem(
-                    icon = { Icon(Icons.Default.Search) },
+                    icon = { Icon(Icons.Default.Search, contentDescription = null) },
                     label = { Text(stringResource(R.string.search_navigation_title)) },
                     selected = selectedNavigation == HomeNavigation.Search,
                     onClick = { onNavigationSelected(HomeNavigation.Search) },

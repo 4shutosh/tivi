@@ -17,13 +17,11 @@
 package app.tivi.buildsrc
 
 object Versions {
-    const val ktlint = "0.39.0"
+    const val ktlint = "0.40.0"
 }
 
 object Libs {
-    const val androidGradlePlugin = "com.android.tools.build:gradle:4.2.0-alpha16"
-
-    const val gradlePlayPublisher = "com.github.triplet.gradle:play-publisher:3.2.0-SNAPSHOT"
+    const val androidGradlePlugin = "com.android.tools.build:gradle:7.0.0-alpha14"
 
     const val threeTenBp = "org.threeten:threetenbp:1.4.5"
     const val threeTenBpNoTzdb = "$threeTenBp:no-tzdb"
@@ -50,7 +48,7 @@ object Libs {
 
     const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.5"
 
-    const val store = "com.dropbox.mobile.store:store4:4.0.0-beta01"
+    const val store = "com.dropbox.mobile.store:store4:4.0.0"
 
     object Insetter {
         private const val version = "0.3.1"
@@ -58,9 +56,9 @@ object Libs {
     }
 
     object Accompanist {
-        private const val version = "0.3.4.compose-7001724-SNAPSHOT"
-        const val coil = "dev.chrisbanes.accompanist:accompanist-coil:$version"
-        const val insets = "dev.chrisbanes.accompanist:accompanist-insets:$version"
+        private const val version = "0.8.1"
+        const val coil = "com.google.accompanist:accompanist-coil:$version"
+        const val insets = "com.google.accompanist:accompanist-insets:$version"
     }
 
     object Google {
@@ -72,14 +70,14 @@ object Libs {
     }
 
     object Kotlin {
-        private const val version = "1.4.20"
+        private const val version = "1.4.32"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
     }
 
     object Coroutines {
-        private const val version = "1.4.1"
+        private const val version = "1.4.3"
         const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
         const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
@@ -92,12 +90,12 @@ object Libs {
         const val emoji = "androidx.emoji:emoji:1.1.0"
 
         object Navigation {
-            private const val version = "2.3.1"
+            private const val version = "2.3.5"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
         }
 
         object Fragment {
-            private const val version = "1.3.0-beta01"
+            private const val version = "1.3.3"
             const val fragment = "androidx.fragment:fragment:$version"
             const val fragmentKtx = "androidx.fragment:fragment-ktx:$version"
         }
@@ -118,27 +116,24 @@ object Libs {
         const val archCoreTesting = "androidx.arch.core:core-testing:2.1.0"
 
         object Paging {
-            // Need to use alpha07 due to:
-            // - https://issuetracker.google.com/issues/173717820
-            // - https://issuetracker.google.com/issues/173435602
-            private const val version = "3.0.0-alpha07"
+            private const val version = "3.0.0-rc01"
             const val common = "androidx.paging:paging-common-ktx:$version"
             const val runtime = "androidx.paging:paging-runtime-ktx:$version"
 
-            const val compose = "androidx.paging:paging-compose:1.0.0-alpha02"
+            const val compose = "androidx.paging:paging-compose:1.0.0-alpha08"
         }
 
-        const val coreKtx = "androidx.core:core-ktx:1.5.0-alpha04"
+        const val coreKtx = "androidx.core:core-ktx:1.5.0-beta02"
 
         object Lifecycle {
-            private const val version = "2.3.0-beta01"
+            private const val version = "2.3.0"
             const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
             const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         }
 
         object Room {
-            private const val version = "2.3.0-alpha03"
+            private const val version = "2.3.0"
             const val common = "androidx.room:room-common:$version"
             const val runtime = "androidx.room:room-runtime:$version"
             const val compiler = "androidx.room:room-compiler:$version"
@@ -152,8 +147,8 @@ object Libs {
         }
 
         object Compose {
-            const val snapshot = "7001724"
-            const val version = "1.0.0-SNAPSHOT"
+            const val snapshot = ""
+            const val version = "1.0.0-beta05"
 
             @get:JvmStatic
             val snapshotUrl: String

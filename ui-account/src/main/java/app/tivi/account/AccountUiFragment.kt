@@ -22,7 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
@@ -30,15 +30,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import app.tivi.common.compose.AmbientTiviDateFormatter
+import app.tivi.common.compose.LocalTiviDateFormatter
 import app.tivi.common.compose.shouldUseDarkColors
 import app.tivi.common.compose.theme.TiviTheme
 import app.tivi.extensions.navigateToNavDestination
 import app.tivi.settings.TiviPreferences
 import app.tivi.util.TiviDateFormatter
+import com.google.accompanist.insets.LocalWindowInsets
+import com.google.accompanist.insets.ViewWindowInsetObserver
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.insets.AmbientWindowInsets
-import dev.chrisbanes.accompanist.insets.ViewWindowInsetObserver
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -66,9 +66,9 @@ class AccountUiFragment : DialogFragment() {
         val windowInsets = ViewWindowInsetObserver(this).start()
 
         setContent {
-            Providers(
-                AmbientTiviDateFormatter provides tiviDateFormatter,
-                AmbientWindowInsets provides windowInsets,
+            CompositionLocalProvider(
+                LocalTiviDateFormatter provides tiviDateFormatter,
+                LocalWindowInsets provides windowInsets,
             ) {
                 TiviTheme(useDarkColors = preferences.shouldUseDarkColors()) {
                     val viewState by viewModel.liveData.observeAsState()

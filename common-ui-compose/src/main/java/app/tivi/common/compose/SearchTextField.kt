@@ -20,7 +20,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
@@ -29,8 +28,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SoftwareKeyboardController
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -40,8 +37,6 @@ fun SearchTextField(
     onValueChange: (TextFieldValue) -> Unit,
     hint: String,
     modifier: Modifier = Modifier,
-    imeAction: ImeAction = ImeAction.Unspecified,
-    onImeActionPerformed: (ImeAction, SoftwareKeyboardController?) -> Unit = { _, _ -> },
 ) {
     OutlinedTextField(
         value = value,
@@ -55,15 +50,11 @@ fun SearchTextField(
                 IconButton(
                     onClick = { onValueChange(TextFieldValue()) },
                 ) {
-                    Icon(Icons.Default.Clear)
+                    Icon(Icons.Default.Clear, contentDescription = null)
                 }
             }
         },
         placeholder = { Text(text = hint) },
-        keyboardOptions = KeyboardOptions(
-            imeAction = imeAction
-        ),
-        onImeActionPerformed = onImeActionPerformed,
         modifier = modifier
     )
 }

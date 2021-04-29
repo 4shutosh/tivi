@@ -21,46 +21,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasureResult
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.toSize
 import kotlin.math.roundToInt
-
-inline val LayoutCoordinates.positionInParent: Offset
-    get() = parentCoordinates?.childToLocal(this, Offset.Zero) ?: Offset.Zero
-
-inline val LayoutCoordinates.boundsInParent: Rect
-    get() = Rect(positionInParent, size.toSize())
 
 fun Modifier.onPositionInParentChanged(
     onChange: (LayoutCoordinates) -> Unit
 ) = composed {
-    var lastPosition by rememberMutableState<Offset?> { null }
     Modifier.onGloballyPositioned { coordinates ->
-        if (coordinates.positionInParent != lastPosition) {
-            lastPosition = coordinates.positionInParent
-            onChange(coordinates)
-        }
-    }
-}
-
-fun Modifier.onPositionInRootChanged(
-    onChange: (LayoutCoordinates) -> Unit
-) = composed {
-    var lastPosition by rememberMutableState<Offset?> { null }
-    Modifier.onGloballyPositioned { coordinates ->
-        if (coordinates.positionInRoot != lastPosition) {
-            lastPosition = coordinates.positionInRoot
-            onChange(coordinates)
-        }
+        onChange(coordinates)
     }
 }
 

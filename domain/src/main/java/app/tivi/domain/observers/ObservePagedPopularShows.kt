@@ -16,6 +16,7 @@
 
 package app.tivi.domain.observers
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -32,6 +33,7 @@ class ObservePagedPopularShows @Inject constructor(
     private val PopularShowsDao: PopularDao,
     private val updatePopularShows: UpdatePopularShows,
 ) : PagingInteractor<ObservePagedPopularShows.Params, PopularEntryWithShow>() {
+    @OptIn(ExperimentalPagingApi::class)
     override fun createObservable(
         params: Params
     ): Flow<PagingData<PopularEntryWithShow>> {

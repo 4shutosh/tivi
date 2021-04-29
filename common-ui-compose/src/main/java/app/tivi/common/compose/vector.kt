@@ -17,6 +17,7 @@
 package app.tivi.common.compose
 
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.loadVectorResource
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun VectorImage(
@@ -38,16 +39,14 @@ fun VectorImage(
     contentScale: ContentScale = ContentScale.Inside,
     tintColor: Color = foregroundColor(),
 ) {
-    val deferred = loadVectorResource(id)
-    deferred.onLoadRun { asset ->
-        VectorImage(
-            vector = asset,
-            alignment = alignment,
-            contentScale = contentScale,
-            tintColor = tintColor,
-            modifier = modifier
-        )
-    }
+    Image(
+        painter = painterResource(id),
+        alignment = alignment,
+        contentDescription = null,
+        contentScale = contentScale,
+        colorFilter = ColorFilter.tint(tintColor),
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -59,11 +58,13 @@ fun VectorImage(
     tintColor: Color = foregroundColor(),
 ) {
     Box(
-        modifier = modifier.clipToBounds().paint(
-            painter = rememberVectorPainter(vector),
-            alignment = alignment,
-            contentScale = contentScale,
-            colorFilter = ColorFilter.tint(tintColor)
-        )
+        modifier = modifier
+            .clipToBounds()
+            .paint(
+                painter = rememberVectorPainter(vector),
+                alignment = alignment,
+                contentScale = contentScale,
+                colorFilter = ColorFilter.tint(tintColor)
+            )
     )
 }

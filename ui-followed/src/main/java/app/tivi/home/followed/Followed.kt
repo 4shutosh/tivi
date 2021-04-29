@@ -20,33 +20,32 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayout
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AmbientContentAlpha
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,15 +54,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import app.tivi.common.compose.AmbientHomeTextCreator
 import app.tivi.common.compose.AutoSizedCircularProgressIndicator
 import app.tivi.common.compose.IconResource
+import app.tivi.common.compose.LocalHomeTextCreator
 import app.tivi.common.compose.SearchTextField
 import app.tivi.common.compose.SortMenuPopup
 import app.tivi.common.compose.rememberMutableState
@@ -74,8 +73,8 @@ import app.tivi.data.entities.TiviShow
 import app.tivi.data.entities.TraktUser
 import app.tivi.data.resultentities.FollowedShowEntryWithShow
 import app.tivi.trakt.TraktAuthState
-import dev.chrisbanes.accompanist.coil.CoilImage
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
+import com.google.accompanist.coil.CoilImage
+import com.google.accompanist.insets.statusBarsPadding
 
 @Composable
 fun Followed(
@@ -89,8 +88,8 @@ fun Followed(
 
             LazyColumn(Modifier.fillMaxSize()) {
                 item {
-                    val height = with(AmbientDensity.current) { appBarHeight.toDp() }
-                    Spacer(Modifier.preferredHeight(height))
+                    val height = with(LocalDensity.current) { appBarHeight.toDp() }
+                    Spacer(Modifier.height(height))
                 }
 
                 item {
@@ -112,7 +111,7 @@ fun Followed(
                             watchedEpisodeCount = entry.stats?.watchedEpisodeCount ?: 0,
                             totalEpisodeCount = entry.stats?.episodeCount ?: 0,
                             onClick = { actioner(FollowedAction.OpenShowDetails(entry.show.id)) },
-                            modifier = Modifier.fillMaxWidth().preferredHeight(88.dp)
+                            modifier = Modifier.fillMaxWidth().height(88.dp)
                         )
                     } else {
                         // TODO placeholder?
@@ -170,7 +169,6 @@ private fun FilterSortPanel(
     }
 }
 
-@OptIn(ExperimentalLayout::class)
 @Composable
 private fun FollowedShowItem(
     show: TiviShow,
@@ -180,13 +178,13 @@ private fun FollowedShowItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val textCreator = AmbientHomeTextCreator.current
+    val textCreator = LocalHomeTextCreator.current
     Row(
         modifier
             .clickable(onClick = onClick)
             .padding(vertical = 8.dp)
     ) {
-        Spacer(Modifier.preferredWidth(16.dp))
+        Spacer(Modifier.width(16.dp))
 
         if (poster != null) {
             Surface(
@@ -196,15 +194,17 @@ private fun FollowedShowItem(
                     .fillMaxHeight()
                     .aspectRatio(2 / 3f)
             ) {
+                @Suppress("DEPRECATION")
                 CoilImage(
                     data = poster,
+                    contentDescription = null,
                     fadeIn = true,
                     modifier = Modifier.fillMaxSize()
                 )
             }
         }
 
-        Spacer(Modifier.preferredWidth(16.dp))
+        Spacer(Modifier.width(16.dp))
 
         Column(Modifier.weight(1f).fillMaxHeight()) {
             Column(Modifier.fillMaxWidth().weight(1f).padding(end = 16.dp)) {
@@ -223,9 +223,9 @@ private fun FollowedShowItem(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Spacer(Modifier.preferredHeight(2.dp))
+                Spacer(Modifier.height(2.dp))
 
-                Providers(AmbientContentAlpha provides ContentAlpha.medium) {
+                CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                     Text(
                         text = textCreator.followedShowEpisodeWatchStatus(
                             episodeCount = totalEpisodeCount,
@@ -235,7 +235,7 @@ private fun FollowedShowItem(
                     )
                 }
 
-                Spacer(Modifier.preferredHeight(8.dp))
+                Spacer(Modifier.height(8.dp))
             }
 
             Divider()
@@ -263,7 +263,7 @@ private fun FollowedAppBar(
         Row(
             modifier = Modifier
                 .statusBarsPadding()
-                .preferredHeight(56.dp)
+                .height(56.dp)
                 .padding(start = 16.dp, end = 4.dp)
         ) {
             Text(
@@ -274,16 +274,16 @@ private fun FollowedAppBar(
 
             Spacer(Modifier.weight(1f))
 
-            Providers(AmbientContentAlpha provides ContentAlpha.medium) {
+            CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
                 IconButton(
                     onClick = onRefreshActionClick,
                     enabled = !refreshing,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ) {
                     if (refreshing) {
-                        AutoSizedCircularProgressIndicator(Modifier.preferredSize(20.dp))
+                        AutoSizedCircularProgressIndicator(Modifier.size(20.dp))
                     } else {
-                        Icon(Icons.Default.Refresh)
+                        Icon(Icons.Default.Refresh, contentDescription = null)
                     }
                 }
 
@@ -293,9 +293,11 @@ private fun FollowedAppBar(
                 ) {
                     when {
                         loggedIn && user?.avatarUrl != null -> {
+                            @Suppress("DEPRECATION")
                             CoilImage(
                                 data = user.avatarUrl!!,
-                                modifier = Modifier.preferredSize(32.dp).clip(CircleShape)
+                                contentDescription = null,
+                                modifier = Modifier.size(32.dp).clip(CircleShape)
                             )
                         }
                         loggedIn -> IconResource(R.drawable.ic_person)

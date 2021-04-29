@@ -21,8 +21,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.DeferredResource
-import androidx.compose.ui.res.loadVectorResource
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun IconResource(
@@ -30,15 +29,10 @@ fun IconResource(
     modifier: Modifier = Modifier,
     tint: Color = foregroundColor()
 ) {
-    val deferredResource = loadVectorResource(resourceId)
-    deferredResource.onLoadRun { vector ->
-        Icon(imageVector = vector, modifier = modifier, tint = tint)
-    }
-}
-
-inline fun <T> DeferredResource<T>.onLoadRun(block: (T) -> Unit) {
-    val res = resource.resource
-    if (res != null) {
-        block(res)
-    }
+    Icon(
+        painter = painterResource(id = resourceId),
+        modifier = modifier,
+        contentDescription = null,
+        tint = tint
+    )
 }
